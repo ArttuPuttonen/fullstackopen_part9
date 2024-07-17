@@ -50,6 +50,7 @@ if (require.main === module) {
 
         console.log(calculateExercises(dailyHours, target));
     } catch (e) {
+        // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access
         console.log('Error:', e.message);
     }
 }

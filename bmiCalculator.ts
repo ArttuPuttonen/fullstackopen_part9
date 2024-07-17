@@ -11,13 +11,14 @@ const calculateBMI = (height: number, weight: number): string => {
     } else {
         return 'Obese';
     }
-    }
+    };
 
     if (require.main === module) {
         try {
             const [height, weight] = parseArguments(process.argv.slice(2));
             console.log(calculateBMI(height, weight));
         } catch (e) {
+            // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access
             console.log('Error:', e.message);
         }
     }
