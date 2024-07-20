@@ -53,11 +53,7 @@ const toNewPatient = (object: unknown): NewPatient => {
         throw new Error('Incorrect or missing data');
     }
 
-    if( 'name' in object 
-        && 'dateOfBirth' in object 
-        && 'ssn' in object
-        && 'gender' in object
-        && 'occupation' in object){
+    if( 'name' in object && 'dateOfBirth' in object && 'ssn' in object&& 'gender' in object && 'occupation' in object){
         const newPatient: NewPatient = {
             name: parseName(object.name),
             dateOfBirth: parseDateOfBirth(object.dateOfBirth),
