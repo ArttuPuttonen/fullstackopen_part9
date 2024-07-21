@@ -1,29 +1,33 @@
 export enum Gender {
-    Female = 'female',
     Male = 'male',
+    Female = 'female',
     Other = 'other'
-}
-
-export interface Diagnose {
+  }
+  
+  export interface Diagnosis {
     code: string;
     name: string;
     latin?: string;
-}
-
-
-// eslint-disable-next-line @typescript-eslint/no-empty-interface
-export interface Entry {
-}
-
-export interface Patient {
+  }
+  
+  export interface Entry {
+    id: string;
+    date: string;
+    type: string;
+    specialist: string;
+    description: string;
+    diagnosisCodes?: Array<Diagnosis['code']>;
+  }
+  
+  export interface Patient {
     id: string;
     name: string;
-    dateOfBirth: string;
-    ssn?: string;
-    gender: Gender;
     occupation: string;
+    gender: Gender;
+    ssn?: string;
+    dateOfBirth?: string;
     entries: Entry[];
-}
+  }
 
 export type NonSensitivePatient = Omit<Patient, 'ssn'>;
 export type NewPatient = Omit<Patient, 'id'>;
