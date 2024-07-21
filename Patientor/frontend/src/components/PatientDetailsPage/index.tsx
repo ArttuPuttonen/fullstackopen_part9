@@ -1,12 +1,13 @@
 import React, { useState, useEffect } from 'react';
 import { useParams } from 'react-router-dom';
-import { Patient, Entry, Diagnosis } from '../../types';
+import { Patient, Diagnosis } from '../../types';
 import { getPatient } from '../../services/patients';
 import diagnoseService from '../../services/diagnoses';
 import { Typography, Container, Box } from '@mui/material';
 import MaleIcon from '@mui/icons-material/Male';
 import FemaleIcon from '@mui/icons-material/Female';
 import TransgenderIcon from '@mui/icons-material/Transgender';
+import EntryDetails from '../EntryDetails';
 
 const PatientDetailsPage: React.FC = () => {
   const { id } = useParams<{ id: string }>();
@@ -52,10 +53,9 @@ const PatientDetailsPage: React.FC = () => {
       <Typography>Occupation: {patient.occupation}</Typography>
       <Box mt={4}>
         <Typography variant="h6">Entries</Typography>
-        {patient.entries.map((entry: Entry) => (
+        {patient.entries.map(entry => (
           <Box key={entry.id} mt={2} p={2} border={1}>
-            <Typography variant="subtitle1">{entry.date}</Typography>
-            <Typography variant="body1">{entry.description}</Typography>
+            <EntryDetails entry={entry} />
             {entry.diagnosisCodes && (
               <ul>
                 {entry.diagnosisCodes.map(code => (
