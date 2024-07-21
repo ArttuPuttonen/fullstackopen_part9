@@ -1,8 +1,9 @@
 import React, { useState, useEffect } from 'react';
-import { useParams, Link } from 'react-router-dom';
-import { Patient, Entry } from '../../types';
+import { useParams } from 'react-router-dom';
+import { Patient, Entry, Diagnosis } from '../../types';
 import { getPatient } from '../../services/patients';
-import { Typography, Button, Container, Box } from '@mui/material';
+import diagnoseService from '../../services/diagnoses';
+import { Typography, Container, Box } from '@mui/material';
 import MaleIcon from '@mui/icons-material/Male';
 import FemaleIcon from '@mui/icons-material/Female';
 import TransgenderIcon from '@mui/icons-material/Transgender';
@@ -10,6 +11,7 @@ import TransgenderIcon from '@mui/icons-material/Transgender';
 const PatientDetailsPage: React.FC = () => {
   const { id } = useParams<{ id: string }>();
   const [patient, setPatient] = useState<Patient | null>(null);
+  const [diagnoses, setDiagnoses] = useState<Diagnosis[]>([]);
 
   useEffect(() => {
     if (id) {
@@ -22,9 +24,23 @@ const PatientDetailsPage: React.FC = () => {
     }
   }, [id]);
 
+  useEffect(() => {
+    const fetchDiagnoses = async () => {
+      const diagnoses = await diagnoseService.getAll();
+      setDiagnoses(diagnoses);
+    };
+
+    fetchDiagnoses();
+  }, []);
+
   if (!patient) {
     return <div>Loading...</div>;
   }
+
+  const findDiagnosisName = (code: string): string => {
+    const diagnosis = diagnoses.find(d => d.code === code);
+    return diagnosis ? diagnosis.name : code;
+  };
 
   return (
     <Container>
@@ -43,16 +59,15 @@ const PatientDetailsPage: React.FC = () => {
             {entry.diagnosisCodes && (
               <ul>
                 {entry.diagnosisCodes.map(code => (
-                  <li key={code}>{code}</li>
+                  <li key={code}>
+                    {code} {findDiagnosisName(code)}
+                  </li>
                 ))}
               </ul>
             )}
           </Box>
         ))}
       </Box>
-      <Button component={Link} to="/" variant="contained" color="primary">
-        Home
-      </Button>
     </Container>
   );
 };

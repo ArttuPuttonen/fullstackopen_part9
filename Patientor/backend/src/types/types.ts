@@ -1,35 +1,34 @@
 export enum Gender {
-    Male = 'male',
     Female = 'female',
+    Male = 'male',
     Other = 'other'
-  }
-  
-  export interface Diagnosis {
+}
+
+export interface Diagnose {
     code: string;
     name: string;
     latin?: string;
-  }
-  
-  export interface Entry {
+}
+
+export interface Entry {
     id: string;
     date: string;
     type: string;
     specialist: string;
     description: string;
-    diagnosisCodes?: Array<Diagnosis['code']>;
-  }
-  
-  export interface Patient {
+    diagnosisCodes?: Array<Diagnose['code']>;
+}
+
+export interface Patient {
     id: string;
     name: string;
-    occupation: string;
-    gender: Gender;
+    dateOfBirth: string;
     ssn?: string;
-    dateOfBirth?: string;
+    gender: Gender;
+    occupation: string;
     entries: Entry[];
-  }
+}
 
 export type NonSensitivePatient = Omit<Patient, 'ssn'>;
 export type NewPatient = Omit<Patient, 'id'>;
-
 
